@@ -5,10 +5,10 @@ cap = cv2.VideoCapture(0)
 while True:
     ret, frame = cap.read()
     if not ret:
-        print("Kamera görüntüsü alınamadı.")
+        print("Kamera açılamadı.")
         break
 
-    cv2.imshow("Kamera Testi", frame)
+    cv2.imshow("Kamera açıldı.", frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
