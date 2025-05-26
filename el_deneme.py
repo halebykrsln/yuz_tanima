@@ -21,9 +21,9 @@ kaydedilen_kisiler = set()
 folder = "fotograf"
 for filename in os.listdir(folder):
     if filename.endswith((".jpg", ".png")):
-        path = os.path.join(folder, filename)
+        path = os.path.join(folder, filename) #dosya yolu oluşturma
         image = face_recognition.load_image_file(path)
-        encoding = face_recognition.face_encodings(image)
+        encoding = face_recognition.face_encodings(image) #encoding yüzün kooridnatları
         if encoding:
             known_encodings.append(encoding[0])
             kaydedilen_isimler.append(os.path.splitext(filename)[0])
@@ -44,9 +44,9 @@ hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7)   # %70 do
 mp_drawing = mp.solutions.drawing_utils
 
 # -------------------- Matplotlib -------------------------
-plt.ion()
-fig, ax = plt.subplots()
-image_display = ax.imshow(np.zeros((480, 640, 3), dtype=np.uint8))
+plt.ion() # interaktif mod (pencerenin her karede güncellenmesi)
+fig, ax = plt.subplots() #fig:pencere ax:ekran 
+image_display = ax.imshow(np.zeros((480, 640, 3), dtype=np.uint8)) # başlangıç boş ekran,sonra görüntü
 plt.axis('off')
 plt.title("Yüz ve El Tanıma Sistemi")
 
@@ -57,7 +57,7 @@ try:
             print("Görüntü alınamadı.")
             break
 
-        frame = cv2.flip(frame, 1)
+        frame = cv2.flip(frame, 1) #ayna görüntüsünü kaldırır
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
 
@@ -70,10 +70,10 @@ try:
             color = (0, 0, 255)
 
             matches = face_recognition.compare_faces(known_encodings, face_encoding)
-            face_distances = face_recognition.face_distance(known_encodings, face_encoding)
+            face_distances = face_recognition.face_distance(known_encodings, face_encoding) #yüze benzeme (küçük mesafe iyi değer)
 
             if len(face_distances) > 0:
-                best_match = np.argmin(face_distances)
+                best_match = np.argmin(face_distances) #np.argmin:en küçük değerin indeksi
                 if matches[best_match]:
                     name = kaydedilen_isimler[best_match]
                     color = (0, 255, 0)
